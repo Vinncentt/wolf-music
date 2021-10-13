@@ -1,3 +1,9 @@
+<?php 
+
+?>
+
+
+
 <div id="navBarContainer">
             <nav class="navBar">
                 <a href="index.php" class="logo">
