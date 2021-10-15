@@ -13,9 +13,13 @@
             $pss = md5($pss);
 
             $query = mysqli_query($this->con, "SELECT * FROM users WHERE username='$usn' AND password='$pss'");
-
+            
             if(mysqli_num_rows($query) == 1){
-                return true;
+                $row = $query->fetch_assoc();
+                
+                return array("status"=>true, "data"=>$row);
+                
+
             }
             else{
                 array_push($this->errorArray, Constants::$loginFailed);
@@ -32,8 +36,9 @@
             $this->validatePasswords($pss, $pss2);
 
             if (empty($this->errorArray) == true) {
-                //Insert into db
+                
                 return $this->insertUserDetails($usn, $fn, $ln, $em, $pss);
+                
             }
 
             else{
@@ -52,8 +57,9 @@
             $encryptedPw = md5($pss);
             $profilePic = "assets/images/profile-pics/random-pic.png";
             $date = date("Y-m-d");
+            $role = "user";
 
-            $result= mysqli_query($this->con, "INSERT INTO users VALUES ('', '$usn', '$fn', '$ln', '$em', '$encryptedPw', '$date', '$profilePic')");
+            $result= mysqli_query($this->con, "INSERT INTO users VALUES ('', '$usn', '$fn', '$ln', '$em', '$encryptedPw', '$date', '$profilePic', '$role')");
             return $result;
         }
 
