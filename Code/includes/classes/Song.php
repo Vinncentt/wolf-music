@@ -26,6 +26,14 @@
             $this->path = $this->mysqliData['path'];
         }
 
+        public function deleteSong($con, $id){
+            $this->con = $con;
+            $this->id = $id;
+
+            mysqli_query($this->$con, "DELETE FROM songs WHERE id='$this->id' ");
+            
+        }
+
         public function getTitle() {
             return $this->title;
         }

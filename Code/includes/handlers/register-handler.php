@@ -22,6 +22,7 @@ function sanitizeFormPassword($inputText){
 
 
 
+
 if(isset($_POST['registerButton'])){
     //Register button was pressed
     $username = sanitizeFormUsername($_POST['username']);

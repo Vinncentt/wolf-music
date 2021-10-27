@@ -1,4 +1,32 @@
+<?php include("includes/config.php") ?>
+
+<?php 
+
+// if(isset($_SESSION['userLoggedIn'])){
+//     $userLoggedIn = $_SESSION['userLoggedIn'];
+// }
+
+// else{
+//     header("Location: register.php");
+    
+// }
+    if(empty($_SESSION)){
+        header("Location: register.php");
+        exit();
+    }else{
+        if ($_SESSION["role"] === "admin") {
+            header("Location: admin.php");
+        }
+    }
+   
+
+?>
+
 <?php include("includes/header.php") ?>
+
+
+
+
 
 <h3 class="pageHeadingBig">You Might Also Like</h3>
 
