@@ -36,61 +36,31 @@ class SongForAdmin
     }
 
 
-    public function getSongInfos( $id){
-        
-        $query = mysqli_query($this->con, "SELECT * FROM songs where id='$id'");
-        $data = mysqli_fetch_array($query);
-        
+    public function getSongInfos($id)
+    {
 
-       return $data;
+        // $query = mysqli_query($this->con, "SELECT * FROM songs where id='$id'");
+        $query = mysqli_query($this->con, "SELECT *, t.name as artistname, s.id as songId, t.id as artistId, s.title as songtitle FROM songs s , artists t , albums a , genres g where s.artist = t.id and s.genre = g.id and s.album = a.id and s.id = $id");
+        $data = mysqli_fetch_assoc($query);
+
+        return $data;
+    }
+
+    public function updateSong($title, $artist, $album, $genre, $duration, $path, $albumOrder, $id)
+    {
+        mysqli_query($this->con, "UPDATE songs
+        SET 
+            title='$title',
+            artist=$artist,
+            album=$album,
+            genre=$genre,
+            duration='$duration',
+            path='$path',
+            albumOrder= $albumOrder,
+            plays = 0 
+        WHERE
+            id = $id");
+
     }
     
-    public function getTitleU() {
-        return $this->title;
-    }
-
-    public function getArtistU()
-    {
-        return $this->artist;
-    }
-
-    public function getAlbumtU()
-    {
-        return $this->album;
-    }
-
-    public function getGenreU()
-    {
-       return $this->genre;
-    }
-
-    public function getdurationU()
-    {
-        return $this->duration;
-    }
-
-    public function getPathU()
-    {
-        return $this->path;
-    }
-
-    public function getAlbumOrderU()
-    {
-        return $this->albumOrder;
-    }
-
-    
-
-    public function updateSonggg($id)
-    {
-        // $duration = "4:20";
-        // $path = "assets/music/Sac.flac";
-        // $albumOrder = "6";
-        //$plays = 0;
-        (" fro_m = :from,city_to 
-        = :to,date_time = :date_tim,arrive_time = :arrive,price = :price ,seats_number = :seats,status = :status WHERE id = :id");
-        $q = mysqli_query($this->con, "UPDATE songs SET id = $id");
-        $query_run = mysqli_query($this->con, $q);
-        return  $query_run;
-    }
 }

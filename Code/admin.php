@@ -125,29 +125,31 @@ require_once("includes/handlers/song-handler.php");
 
 
 
-
-
-    artist.addEventListener('change', () => {
+    function getAlbums() {
 
         var idArtist = artist.value;
+        var counter = 0;
         album.options[0].selected = "selected";
+        // album.options[0].value = "";
         //console.log(album.options);
 
-        for (var i = 1; i < album.length; i++) {
+        for (var i = 0; i < album.length; i++) {
             var albumArtisId = album.options[i].getAttribute('data-userId');
             //console.log(album.options[i]);
 
             if (idArtist == albumArtisId) {
+                if (counter == 0) album.options[i].selected = "selected";
                 album.options[i].removeAttribute('hidden');
+                counter++;
             } else {
                 album.options[i].setAttribute('hidden', 'hidden');
             }
             // // now have option.text, option.value
         }
+    }
 
-
-
-    });
+    artist.addEventListener('change', () => getAlbums());
+    getAlbums();
 </script>
 
 <?php include("includes/footerAdmin.php") ?>

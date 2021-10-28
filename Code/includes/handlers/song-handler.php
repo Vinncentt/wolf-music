@@ -30,11 +30,18 @@ if (isset($_POST['deleteSongButton'])) {
 
 }
 
-if (isset($_POST['editeButton'])) {
+if(isset($_POST['updateSong'])){
+    $title = $_POST['title'];
+    $artist = $_POST['artist'];
+    $album = $_POST['album'];
+    $genres = $_POST['genres'];
+    $duration = $_POST['duration'];
+    $path = $_POST['path'];
+    $albumOrder = $_POST['albumOrder'];
+    $id = $_POST['songIdHidden'];
 
-    $id_song = $_POST['editeButton'];
-
-    echo "zbi";
+    $Song = new SongForAdmin($con);
+    $query_run = $Song->updateSong($title, $artist, $album, $genres, $duration, $path, $albumOrder, $id);
 }
 
 

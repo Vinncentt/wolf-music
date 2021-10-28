@@ -30,6 +30,9 @@ if (isset($_POST['editeButton'])) {
     $x = new SongForAdmin($con);
     $y = $x->getSongInfos($_POST['editeButton']);
     // print_r($y);
+    // print_r($_POST['editeButton']);
+} else {
+    header("location: all-admin-albums.php");
 }
 ?>
 
@@ -37,7 +40,7 @@ if (isset($_POST['editeButton'])) {
 <div class="container-fluid d-flex justify-content-center align-items-center bg-dark" style="height: 100vh;"">
     <form action="" style=" width: 30%;" method="POST">
     <div class=" user-details mb-3  p-3">
-        <h1 class="title">Insert a new Song</h1>
+        <h1 class="title">Update Song</h1>
         <div class="mb-3 mt-3">
             <?php
             require_once("includes/classes/Admin.php");
@@ -49,41 +52,48 @@ if (isset($_POST['editeButton'])) {
             ?>
 
             <label for="songTitleAdmin" class="form-label ">Song Title:</label>
-            <input value="<?php echo $y['title']; ?>" type="text" name="title" class="form-control bg-secondary" id="songTitleAdmin">
+            <input value="<?php echo $y['songtitle']; ?>" type="text" name="title" class="form-control bg-secondary" id="songTitleAdmin">
         </div>
 
         <div class="mb-3">
             <?php
             require_once("includes/classes/Admin.php");
 
-            $artistt = new SongForAdmin($con, 1);
-            $artisttNames = $artistt->getArtistU();
+            $artistt = new ArtistForAdmin($con, 1);
+            $artisttNames = $artistt->getArtistsName();
             // echo "<pre>";
-            // print_r($artisttNames);
             ?>
+
             <label for="artist" class="form-label">Select the Artist:</label>
-            <select class="form-select bg-secondary" id="artist" name="artist">
+            <select value="<?php echo $y['artistId']; ?>" class="form-select bg-secondary" id="artist" name="artist">
                 <?php foreach ($artisttNames as $artisttName) :  ?>
-                    <option value="<?php echo $artisttName['id']; ?>"><?php echo $artisttName['name'];  ?></option>
+                    <?php
+                    if ($artisttName['id'] == $y['artist']) : ?>
+                        <option selected="selected" value="<?php echo $artisttName['id']; ?>"><?php echo $artisttName['name'];  ?></option>
+                    <?php else : ?>
+                        <option value="<?php echo $artisttName['id']; ?>"><?php echo $artisttName['name'];  ?></option>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             </select>
         </div>
 
         <div>
-            <br>
             <?php
             require_once("includes/classes/Admin.php");
 
-            $albums = new ArtistForAdmin($con, 1);
-            $albumsTitle = $albums->getAlbumsTitle();
-            // echo "<pre>";
-            // print_r($albumsTitle);
+            $albumss = new ArtistForAdmin($con, 1);
+            $albumsTitle = $albumss->getAlbumsTitle();
+
             ?>
+
             <label for="album" class="form-label">Select the Album:</label>
             <select class="form-select bg-secondary" id="album" name="album">
                 <?php foreach ($albumsTitle as $albumTitle) :  ?>
-                    <option>--select Album--</option>
-                    <option data-userId="<?php echo $albumTitle['artist']; ?>" value="<?php echo $albumTitle['id']; ?>"><?php echo $albumTitle['title'];  ?></option>
+                    <?php if ($albumTitle['id'] == $y['album']) : ?>
+                        <option data-userId="<?php echo $albumTitle['artist']; ?>" selected="selected" value="<?php echo $albumTitle['id']; ?>"><?php echo $albumTitle['title'];  ?></option>
+                    <?php else : ?>
+                        <option data-userId="<?php echo $albumTitle['artist']; ?>" value="<?php echo $albumTitle['id']; ?>"><?php echo $albumTitle['title'];  ?></option>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             </select>
         </div>
@@ -102,26 +112,33 @@ if (isset($_POST['editeButton'])) {
             <label for="genre" class="form-label">Select the Genre:</label>
             <select class="form-select bg-secondary" id="genre" name="genres">
                 <?php foreach ($songsGenre as $songGenre) :  ?>
-                    <option value="<?php echo $songGenre['id']; ?>"><?php echo $songGenre['name'];  ?></option>
+                    <?php if ($songGenre['id'] == $y['genre']) : ?>
+                        <option selected="selected" value="<?php echo $songGenre['id']; ?>"><?php echo $songGenre['name'];  ?></option>
+                    <?php else : ?>
+                        <option value="<?php echo $songGenre['id']; ?>"><?php echo $songGenre['name'];  ?></option>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             </select>
 
             <div class="mb-3 mt-3">
                 <label for="Duration" class="form-label ">Duration of song:</label>
-                <input type="text" class="form-control bg-secondary" name="duration" id="Duration" placeholder="Ex: 4:20">
+                <!-- <input type="text" class="form-control bg-secondary" name="duration" id="Duration" placeholder="Ex: 4:20"> -->
+                <input value="<?php echo $y['duration']; ?>" type="text" name="duration" class="form-control bg-secondary" id="Duration">
             </div>
 
             <div class="mb-3 mt-3">
                 <label for="title" class="form-label ">Path:</label>
-                <input type="text" class="form-control bg-secondary" name="path" id="path" placeholder="Ex: 4:20">
+                <!-- <input type="text" class="form-control bg-secondary" name="path" id="path" placeholder="Ex: 4:20"> -->
+                <input value="<?php echo $y['path']; ?>" type="text" name="path" class="form-control bg-secondary" id="path">
             </div>
 
             <div class="mb-3 mt-3">
                 <label for="order" class="form-label ">Order of song in album:</label>
-                <input type="text" name="albumOrder" class="form-control bg-secondary" id="order" placeholder="Ex: 4:20">
+                <!-- <input type="text" name="albumOrder" class="form-control bg-secondary" id="order" placeholder="Ex: 4:20"> -->
+                <input value="<?php echo $y['albumOrder']; ?>" type="text" name="albumOrder" class="form-control bg-secondary" id="order">
             </div>
-
-            <button type="submit" class="btn btn-secondary" id="submit" name="addSong">submit</button>
+            <input name="songIdHidden" type="hidden" value="<?php echo $_POST['editeButton'] ?>" />
+            <button type="submit" class="btn btn-secondary" id="submit" name="updateSong">save</button>
 
         </div>
         <div>
@@ -145,29 +162,31 @@ if (isset($_POST['editeButton'])) {
 
 
 
-
-
-    artist.addEventListener('change', () => {
+    function getAlbums() {
 
         var idArtist = artist.value;
+        var counter = 0;
         album.options[0].selected = "selected";
+        // album.options[0].value = "";
         //console.log(album.options);
 
-        for (var i = 1; i < album.length; i++) {
+        for (var i = 0; i < album.length; i++) {
             var albumArtisId = album.options[i].getAttribute('data-userId');
             //console.log(album.options[i]);
 
             if (idArtist == albumArtisId) {
+                if (counter == 0) album.options[i].selected = "selected";
                 album.options[i].removeAttribute('hidden');
+                counter++;
             } else {
                 album.options[i].setAttribute('hidden', 'hidden');
             }
             // // now have option.text, option.value
         }
+    }
 
-
-
-    });
+    artist.addEventListener('change', () => getAlbums());
+    getAlbums();
 </script>
 
-<?php include("includes/footerAdmin.php") ?>
+<?php include("includes/footerAdmin.php") ?>getAlbums
