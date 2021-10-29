@@ -6,7 +6,7 @@ include("includes/classes/Song.php") ;
 
 
 // session_destroy(); 
-
+// if(isset($_SESSION['usserLoggedIn'])) 
 // 
 ?>
 
@@ -16,7 +16,7 @@ include("includes/classes/Song.php") ;
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to ur-listening</title>
+    <title>Welcome to Wolf-Music</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="assets/js/script.js"></script>

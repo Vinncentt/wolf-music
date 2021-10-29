@@ -17,7 +17,7 @@ include("includes/classes/Song.php");
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to ur-listening</title>
+  <title>Welcome to Wolf-Music</title>
 
   <link rel="stylesheet" href="assets/css/style.css">
   <!-- <link rel="stylesheet" href="assets/css/admin.css"> -->
@@ -35,4 +35,4 @@ include("includes/classes/Song.php");
 
       <div id="mainViewContainer">
 
-        <div id="mainContent" style="padding: 0;" style="padding-bottom: 0;" >
+        <div id="mainContent" style="padding: 0;" style="padding-bottom: 0;">

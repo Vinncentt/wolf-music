@@ -1,9 +1,13 @@
 
 var currentPlayList = [];
+var shufflePlayList = [];
+var tempPlaylist = [];
 var audioElement;
 var mouseDown = false;
 var currentIndex = 0;
 var repeat = false;
+var shuffle = false;
+var userLoggedIn;
 
 function formatTime(seconds){
     var time = Math.round(seconds);
@@ -38,9 +42,17 @@ function updateVolumeProgressBar(audio){
 
 }
 
+function playFirstSong() {
+    setTrack(tempPlaylist[0], tempPlaylist, true);
+}
+
 function Audio() {
     this.currentlyPlaying;
     this.audio = document.createElement('audio'); //audio object
+    
+    this.audio.addEventListener("ended", function(){
+        nextSong();
+    });
 
     // this.audio.addEventListener("canplay", function() { //canplay means when ur able to play a song do what's inside the function
     //     //'this' refers to the object that the event was called on 

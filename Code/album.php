@@ -1,18 +1,17 @@
-<?php 
-include("includes/header.php") ;
+<?php
+include("includes/header.php");
 
 
 
-    if(isset($_GET['id'])){
-        $albumId = $_GET['id'];
-    }
-    else {
-       header("Location: index.php");
-    }
+if (isset($_GET['id'])) {
+    $albumId = $_GET['id'];
+} else {
+    header("Location: index.php");
+}
 
-    $album = new Album($con, $albumId);
+$album = new Album($con, $albumId);
 
-    $artist = $album->getArtist();
+$artist = $album->getArtist();
 ?>
 
 <div class="entityInfo">
@@ -27,19 +26,19 @@ include("includes/header.php") ;
     </div>
 </div>
 
-<div class="tracklistContainer">
+<div class="tracklistContainer" >
     <ul class="tracklist">
-        <?php 
-            $songIdArray = $album->getSongIds();
-            $i = 1;
-            foreach($songIdArray as $songId) {
-                
-                $albumSong = new Song($con, $songId);
-                $albumArtist = $albumSong->getArtist();
+        <?php
+        $songIdArray = $album->getSongIds();
+        $i = 1;
+        foreach ($songIdArray as $songId) {
 
-                echo "<li class='tracklistRow'>
+            $albumSong = new Song($con, $songId);
+            $albumArtist = $albumSong->getArtist();
+
+            echo "<li class='tracklistRow'>
                         <div class='trackCount'>
-                            <img class='play' src='assets/images/icons/play-white.png'>
+                            <img class='play' src='assets/images/icons/play-white.png' onclick='setTrack(\"" . $albumSong->getId() . "\",tempPlaylist, true )'>
                             <span class='trackNumber'>$i</span>
                         </div>
 
@@ -55,17 +54,18 @@ include("includes/header.php") ;
                         </div>
                      </li> ";
 
-                $i = $i + 1;
-                
-
-
-            }
+            $i = $i + 1;
+        }
         ?>
+        <script>
+            var tempSongIds = '<?php print json_encode($songIdArray); ?>';
+            tempPlaylist = JSON.parse(tempSongIds);
+        </script>
     </ul>
 </div>
 
 
 
-    
+
 
 <?php include("includes/footer.php") ?>
